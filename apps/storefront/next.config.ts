@@ -5,6 +5,7 @@ import path from "path";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   transpilePackages: ["@v8n/ui", "@v8n/i18n"],
   webpack: (config) => {
     config.resolve.alias = {

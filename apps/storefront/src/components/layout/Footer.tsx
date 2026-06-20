@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 
 export function Footer() {
-  const t = useTranslations("common");
+
   const ft = useTranslations("storefront.footer");
   const tRoot = useTranslations("storefront");
   return (

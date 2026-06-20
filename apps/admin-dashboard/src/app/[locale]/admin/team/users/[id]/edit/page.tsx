@@ -1,6 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
-import { UserForm } from '@/components/admin/UserForm';
-import { useAdminUser } from '@v8n/api/src/admin/queries';
+
 import type { Metadata } from 'next';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -14,6 +13,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 import { EditUserClient } from './EditUserClient';
 
-export default function EditUserPage({ params }: { params: Promise<{ locale: string; id: string }> }) {
+export default function EditUserPage() {
     return <EditUserClient />;
 }

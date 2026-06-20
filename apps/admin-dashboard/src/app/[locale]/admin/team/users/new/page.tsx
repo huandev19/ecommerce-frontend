@@ -11,6 +11,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     };
 }
 
-export default function NewUserPage({ params }: { params: Promise<{ locale: string }> }) {
+export default function NewUserPage() {
     return <UserForm />;
 }

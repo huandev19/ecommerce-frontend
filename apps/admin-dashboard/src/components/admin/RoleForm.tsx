@@ -71,7 +71,7 @@ export function RoleForm({ role, isEditMode = false }: RoleFormProps) {
         const payload = { ...values, permissionIds: selectedPermIds };
 
         if (isEditMode && role) {
-            const updatePayload: any = { id: role.id };
+            const updatePayload = { id: role.id } as Parameters<typeof updateMutation.mutate>[0];
             if (values.name !== role.name) updatePayload.name = values.name;
             if (values.description !== role.description) updatePayload.description = values.description;
             updatePayload.permissionIds = selectedPermIds;
@@ -135,7 +135,7 @@ export function RoleForm({ role, isEditMode = false }: RoleFormProps) {
                             <FormField
                                 control={form.control}
                                 name="name"
-                                render={({ field }: { field: any }) => (
+                                render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-[#111827]">Role Name</FormLabel>
                                         <FormControl>
@@ -154,7 +154,7 @@ export function RoleForm({ role, isEditMode = false }: RoleFormProps) {
                             <FormField
                                 control={form.control}
                                 name="description"
-                                render={({ field }: { field: any }) => (
+                                render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-[#111827]">Description</FormLabel>
                                         <FormControl>

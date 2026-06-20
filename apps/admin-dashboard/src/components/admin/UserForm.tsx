@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, Eye, EyeOff, Loader2, X } from 'lucide-react';
 import { AdminUser } from '@v8n/types';
-import { adminUserSchema, adminUserUpdateSchema, type AdminUserFormValues, type AdminUserUpdateFormValues } from '@v8n/api/src/admin/zod-schemas';
+import { adminUserSchema, adminUserUpdateSchema } from '@v8n/api/src/admin/zod-schemas';
 import { useCreateAdminUser, useUpdateAdminUser, useAdminRoles } from '@v8n/api/src/admin/queries';
 import {
     Button,
@@ -30,7 +30,6 @@ interface UserFormProps {
     isEditMode?: boolean;
 }
 
-type FormValues = AdminUserFormValues & { confirmPassword?: string };
 
 export function UserForm({ user, isEditMode = false }: UserFormProps) {
     const router = useRouter();
@@ -53,7 +52,7 @@ export function UserForm({ user, isEditMode = false }: UserFormProps) {
 
     const schema = isEditMode ? adminUserUpdateSchema : createSchema;
 
-    const form = useForm<any>({
+    const form = useForm({
         resolver: zodResolver(schema),
         defaultValues: {
             email: user?.email ?? '',
@@ -65,9 +64,9 @@ export function UserForm({ user, isEditMode = false }: UserFormProps) {
         },
     });
 
-    const onSubmit = (values: any) => {
+    const onSubmit = (values: { email: string; name: string; password?: string; isActive?: boolean }) => {
         if (isEditMode && user) {
-            const payload: any = { id: user.id };
+            const payload = { id: user.id } as Parameters<typeof updateMutation.mutate>[0];
             if (values.email !== user.email) payload.email = values.email;
             if (values.name !== user.name) payload.name = values.name;
             if (values.password) payload.password = values.password;
@@ -84,7 +83,7 @@ export function UserForm({ user, isEditMode = false }: UserFormProps) {
             });
         } else {
             createMutation.mutate(
-                { ...values, roleIds: selectedRoleIds },
+                { ...values, roleIds: selectedRoleIds } as Parameters<typeof createMutation.mutate>[0],
                 {
                     onSuccess: () => router.push('/admin/team/users'),
                     onError: (err) => {
@@ -146,7 +145,7 @@ export function UserForm({ user, isEditMode = false }: UserFormProps) {
                                 <FormField
                                     control={form.control}
                                     name="email"
-                                    render={({ field }: { field: any }) => (
+                                    render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className="text-[#111827]">Email Address</FormLabel>
                                             <FormControl>
@@ -166,7 +165,7 @@ export function UserForm({ user, isEditMode = false }: UserFormProps) {
                                 <FormField
                                     control={form.control}
                                     name="name"
-                                    render={({ field }: { field: any }) => (
+                                    render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className="text-[#111827]">Full Name</FormLabel>
                                             <FormControl>
@@ -189,7 +188,7 @@ export function UserForm({ user, isEditMode = false }: UserFormProps) {
                                     <FormField
                                         control={form.control}
                                         name="password"
-                                        render={({ field }: { field: any }) => (
+                                        render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel className="text-[#111827]">
                                                     Password{isEditMode ? ' (leave blank to keep unchanged)' : ''}
@@ -221,7 +220,7 @@ export function UserForm({ user, isEditMode = false }: UserFormProps) {
                                         <FormField
                                             control={form.control}
                                             name="confirmPassword"
-                                            render={({ field }: { field: any }) => (
+                                            render={({ field }) => (
                                                 <FormItem>
                                                     <FormLabel className="text-[#111827]">Confirm Password</FormLabel>
                                                     <FormControl>
@@ -297,7 +296,7 @@ export function UserForm({ user, isEditMode = false }: UserFormProps) {
                             <FormField
                                 control={form.control}
                                 name="isActive"
-                                render={({ field }: { field: any }) => (
+                                render={({ field }) => (
                                     <FormItem className="flex items-center justify-between rounded-lg border border-[#E5E7EB] px-4 py-3">
                                         <div>
                                             <FormLabel className="text-[#111827]">Account Status</FormLabel>

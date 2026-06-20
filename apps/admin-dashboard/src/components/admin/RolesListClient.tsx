@@ -82,7 +82,7 @@ export function RolesListClient() {
                     <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-[#D1D5DB] bg-white py-16">
                         <Shield className="mb-3 h-10 w-10 text-[#D1D5DB]" />
                         <p className="text-sm font-medium text-[#6B7280]">No roles defined</p>
-                        <p className="mt-1 text-xs text-[#9CA3AF]">Click "Add Role" to create one</p>
+                        <p className="mt-1 text-xs text-[#9CA3AF]">Click &quot;Add Role&quot; to create one</p>
                     </div>
                 ) : (
                     <div className="space-y-6">

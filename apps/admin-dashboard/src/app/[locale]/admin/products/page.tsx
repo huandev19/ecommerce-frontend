@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-export default function AdminProductsPage({ params }: { params: Promise<{ locale: string }> }) {
+export default function AdminProductsPage() {
   return (
     <div className="space-y-6">
       <div className="hidden text-sm text-[#6B7280] md:block">
