@@ -1,0 +1,87 @@
+# Frontend Monorepo Rules (v8n-ecomm)
+
+You are an expert AI assistant for a Frontend Monorepo (Next.js, Turborepo, pnpm).
+Follow these instructions and conventions strictly when assisting with this project.
+
+## 🏗️ 1. Project Architecture & Structure
+This project uses Turborepo to manage multiple Next.js applications and shared packages.
+The workspace root is typically `v8n-ecomm/` inside the FrontEnd directory.
+
+### Apps:
+- `apps/storefront`: Next.js (App Router) for the customer-facing storefront.
+- `apps/admin-dashboard`: Next.js (App Router) for the internal admin dashboard.
+
+### Shared Packages:
+- `ecommerce/ui`: Shared UI components (shadcn-ui base components + composite components).
+- `packages/api`: Shared API client (Axios/Fetch), API endpoints, and data fetching hooks (TanStack Query).
+- `packages/hooks`: Shared custom React hooks NOT tied to UI (e.g., `useEventBus`, `useAuth`, `useToast`).
+- `packages/utils`: Shared utility functions (formatters, debounce, string helpers, Zod validation schemas).
+- `packages/config`: Shared configuration files (ESLint, Tailwind, TypeScript, Prettier).
+- `packages/types`: Shared TypeScript definitions and DTOs.
+
+---
+
+## 🛠️ 2. Tech Stack
+- **Framework:** Next.js (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **UI Library:** shadcn-ui (centralized in `ecommerce/ui`)
+- **State/Data Fetching:** TanStack Query
+- **Package Manager:** pnpm
+- **Monorepo Tool:** Turborepo
+
+---
+
+## 📜 3. Coding Standards & Conventions
+
+### General Rules
+- ALWAYS use `pnpm` for package management. Never use `npm` or `yarn`.
+- ALL UI components must be created in `ecommerce/ui` if they are shared or if they are standard `shadcn-ui` components. Do NOT install `shadcn-ui` components directly into `apps/*`.
+- Run all workspace commands from the root directory using `pnpm --filter <package-name> <command>` unless specified otherwise.
+- Strictly adhere to TypeScript. Avoid using `any`. Define strict interfaces/types in `packages/types` and import them across the monorepo.
+
+### React & Next.js Guidelines
+- Use Functional Components with React Hooks.
+- Favor **Server Components** in Next.js App Router by default. Use `"use client"` ONLY when necessary (e.g., for interactivity, React hooks, event listeners).
+- Keep UI components purely presentational where possible. Extract reusable business logic into `packages/hooks` and data fetching logic into `packages/api`.
+- UI components in `ecommerce/ui` should be highly reusable, supporting standard HTML attributes via `React.forwardRef` and styling variations via `cva` (class-variance-authority).
+- **Form State Management:** All local state variables used for forms MUST be managed using the `react-hook-form` library combined with `zod`. Absolutely do NOT use multiple discrete states with `useState` for form fields.
+- **Handling Dynamic Params (Next 15):** In Next.js 15, route `params` and `searchParams` are Promises. ALWAYS unwrap them asynchronously using `await params` inside Server Components. Avoid relying on `React.use(params)` inside Client Components; instead, pass the resolved params or fetched data down as props to the Client Component.
+
+### Global Architecture Conventions
+- **Event Bus:** Use the global Event Bus (`packages/hooks/useEventBus.ts`) for cross-component communication. The Event Bus MUST implement a Lock mechanism to prevent spam-clicks (e.g., rejecting duplicate `ADD_TO_CART` events while pending).
+- **Global Error Handling:** Implement Global Error Handling via React Error Boundaries (`GlobalErrorFallback` in `ecommerce/ui`). Ensure API Interceptors map HTTP 400/500 errors to global toast notifications automatically.
+- **Data Fetching:** Do NOT use `fetch` or `axios` directly inside Next.js components. Define API services and TanStack Query hooks in `packages/api` and consume them in the apps.
+- **Transaction & Flow:** For complex flows like Checkout, ensure Cart ID is managed properly on the client side (LocalStorage/Cookie), and API integrations follow strict event flows.
+
+---
+
+## 🤖 4. AI Agent Execution Rules
+- **ALWAYS READ TROUBLESHOOTING_frontend.md FIRST:** Before starting any task or debugging, you MUST read the `TROUBLESHOOTING_frontend.md` file at the workspace root to be aware of past issues and avoid repeating mistakes.
+- **Do NOT assume or skip steps.** Follow architectural documentation strictly.
+- **MANDATORY PLANNING PHASE:** Before starting to write code or execute ANY task, you MUST create a detailed implementation plan file. If a plan file already exists for the current task, you MUST update it first. **CRITICAL:** After creating or updating the plan, you MUST STOP executing immediately and ask the user for explicit approval. Absolutely NO execution or code modification can occur before the user explicitly says "Approved" or "Proceed". Do NOT self-approve or chain tool calls to execute the plan.
+- **OS Checking MUST BE AUTOMATIC:** Before running any installation commands, creating files, or executing shell scripts, you MUST automatically check the current Operating System (macOS, Windows, or Linux) using commands like `uname -a` or `ver`. Use the appropriate syntax and permissions (e.g., `sudo` on macOS) based on the OS. Never assume the OS.
+- **Handling "Why" Questions:** When the user asks a question starting with "Why" (Tại sao) or asks for an explanation, you MUST ONLY EXPLAIN the reasoning. DO NOT proactively modify files, update code, or run commands based on that question unless explicitly instructed by the user to do so.
+- Before modifying or creating a file, verify you are in the correct package or app directory.
+- When creating a shared component in `ecommerce/ui`, immediately export it in `ecommerce/ui/src/index.ts` and verify it is transpiled properly in `apps/storefront/next.config.ts` and `apps/admin-dashboard/next.config.ts`.
+- When adding new dependencies, verify that `package.json` configurations are updated correctly. Use workspace protocol `workspace:*` when linking internal packages.
+- Prioritize updating `Tracking_Task*.md` files or markdown docs when completing milestones.
+- **Mock Data Management & Centralization:** All mock data MUST ONLY be created and managed centrally inside `packages/api/src/home/queries.ts`. Do not create isolated mock data files (e.g., `mockData.ts`) within the individual apps (`storefront`, `admin-dashboard`). Furthermore, to prevent data fragmentation, DO NOT create multiple disconnected mock data variables for the same entity type (e.g., separate arrays for `mockCategories` and `featuredCategories`). All functions returning mock data for a specific entity MUST derive their data from a single, unified centralized array.
+
+# Refactoring Code Flow & TypeScript Rules
+
+This project is a monorepo consisting of multiple workspaces (`apps/` and `packages/`). To prevent incomplete refactors and broken types across the workspaces, all AI agents and developers must strictly follow this code flow when making changes to shared types or interfaces (like those in `@v8n/types`).
+
+## Global Type Update Rule
+Whenever a shared interface (e.g., `Product`, `Category`) or utility type is modified, added, or removed, you **MUST**:
+
+1. **Global Search**: Perform a global search (`grep_search` or equivalent) across the **entire monorepo root** (`/`), not just the current app or package you are working on.
+2. **Find All Usages**: Look for the name of the interface and any property changes (e.g. searching for `handle:` if you renamed `handle` to `slug`).
+3. **Update Everything**: Update all occurrences of the type usage. Pay special attention to:
+   - Mock Data files (`mockData.ts`, `queries.ts`, etc.) in all packages (`apps/*` and `packages/*`).
+   - Hardcoded arrays or objects returning the interface in API packages.
+   - Component props in UI packages.
+4. **Never Assume Isolation**: Do not assume that changing a type in `packages/types` only affects the current active app. It affects the entire monorepo.
+5. **Validation**: Check if `pnpm dev` or `pnpm build` triggers any type errors across the workspaces before concluding the task.
+
+By following this checklist, we avoid edge cases where a property is updated in one app's mock data but forgotten in another package's query functions.

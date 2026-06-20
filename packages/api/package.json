@@ -1,0 +1,19 @@
+{
+  "name": "@v8n/api",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "dependencies": {
+    "@v8n/types": "workspace:*",
+    "zod": "^3.22.4"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.101.0",
+    "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@tanstack/react-query": "^5.101.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0"
+  }
+}

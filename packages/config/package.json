@@ -1,0 +1,14 @@
+{
+  "name": "@v8n/config",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./eslint/next": "./eslint/next.mjs"
+  },
+  "dependencies": {
+    "@eslint/js": "^9.0.0",
+    "@eslint/eslintrc": "^3.0.0",
+    "eslint": "^9.39.0",
+    "eslint-config-next": "15.0.0"
+  }
+}
