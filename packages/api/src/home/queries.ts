@@ -1,4 +1,5 @@
-import { Product, Category } from "@v8n/types";
+import { Product, Category, ApiResponse, ApiProductDto } from "@v8n/types";
+import { fetchClient } from "../client";
 
 // TODO: Use axios/fetch to call backend API endpoints when ready.
 
@@ -201,9 +202,29 @@ export const getNewArrivals = async (): Promise<Product[]> => {
 };
 
 export const getProducts = async (): Promise<Product[]> => {
-  const featured = await getFeaturedProducts();
-  const newArrivals = await getNewArrivals();
-  return [...mockProducts, ...featured, ...newArrivals];
+  try {
+    const res = await fetchClient<ApiResponse<ApiProductDto[]>>('/store/products');
+    
+    if (res && res.success && Array.isArray(res.data)) {
+      return res.data.map((item) => ({
+        id: item.id,
+        name: item.title || "",
+        slug: item.slug || "",
+        description: item.description || "",
+        price: 0,
+        image: item.thumbnailUrl || "",
+        images: item.thumbnailUrl ? [item.thumbnailUrl] : [],
+        category: item.categoryId || "Uncategorized",
+        inStock: item.status !== "draft",
+        rating: 0,
+        reviewCount: 0,
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return [];
+  }
 };
 
 export const getProductBySlug = async (slug: string): Promise<Product | undefined> => {

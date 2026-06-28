@@ -59,12 +59,3 @@ export interface RegisterFormValues {
     phone?: string;            // Optional phone field
 }
 
-// ===== API Response Wrapper Type =====
-
-// Should be added to packages/types/src/api.ts or packages/types/src/common.ts
-export interface ApiResponse<T> {
-    success: boolean;
-    message?: string;
-    data?: T;
-    error?: string;
-}
