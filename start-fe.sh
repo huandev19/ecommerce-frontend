@@ -13,14 +13,14 @@ read -p "Start admin or storefront? (ad for admin, fe for storefront, leave empt
 
 if [ "$choice" = "ad" ]; then
   kill_port 3001
-  pnpm --filter admin-dashboard dev
+  pnpm --filter admin-dashboard dev 2>&1 | tee admin-dashboard.log
 elif [ "$choice" = "fe" ]; then
   kill_port 3000
-  pnpm --filter storefront dev
+  pnpm --filter storefront dev 2>&1 | tee storefront.log
 elif [ -z "$choice" ]; then
   kill_port 3000
   kill_port 3001
-  pnpm dev
+  pnpm dev 2>&1 | tee all-apps.log
 else
   echo "Invalid choice. Exiting."
   exit 1
