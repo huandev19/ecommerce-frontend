@@ -1,0 +1,54 @@
+# 1. Các file khóa (Lockfiles) - RẤT QUAN TRỌNG
+# Những file này cực kỳ dài, tiêu tốn hàng chục ngàn token nhưng AI không cần đọc để hiểu logic code.
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+Cargo.lock
+Gemfile.lock
+poetry.lock
+
+# 2. Các file Media & Assets tĩnh (UI/UX)
+# AI (text model) không hiểu được nội dung file nhị phân hoặc vector qua mã nguồn.
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.ico
+*.gif
+*.webp
+*.mp3
+*.mp4
+*.ttf
+*.woff
+*.woff2
+
+# 3. Dữ liệu tĩnh, Mock data & Logs
+# Thường chứa dữ liệu thô lặp đi lặp lại.
+*.csv
+*.tsv
+*.sql
+*.log
+mock-data/
+__fixtures__/
+locales/        # Có thể bỏ nếu file dịch đa ngôn ngữ (i18n) quá dài
+
+# 4. Cấu hình IDE / Môi trường cá nhân
+.vscode/
+.idea/
+.DS_Store
+*.swp
+
+# 5. Các file tài liệu không chứa logic lập trình
+CHANGELOG.md
+LICENSE
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+
+# 6. Thư mục build/output (Đề phòng file .gitignore thiếu)
+dist/
+build/
+out/
+coverage/
+.next/
+.nuxt/
