@@ -26,6 +26,11 @@ export interface Category {
   id: string;
   name: string;
   slug: string;
-  itemCount?: number;
-  icon?: string;
+  description?: string | null;
+  parentCategoryId?: string | null;
+  active?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  itemCount?: number; // TODO: Check/scan later (Frontend only field, not in API)
+  icon?: string; // TODO: Check/scan later (Frontend only field, not in API)
 }

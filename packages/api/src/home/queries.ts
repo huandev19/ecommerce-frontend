@@ -1,4 +1,4 @@
-import { Product, Category, ApiResponse, ApiProductDto } from "@v8n/types";
+import { Product, Category, ApiResponse, ApiProductDto, ApiCategoryDto } from "@v8n/types";
 import { fetchClient } from "../client";
 
 // TODO: Use axios/fetch to call backend API endpoints when ready.
@@ -178,43 +178,90 @@ export const mockProducts: Product[] = [
 ];
 
 export const getFeaturedCategories = async (): Promise<Category[]> => {
-  return mockCategories.filter(c => 
-    ["electronics", "fashion", "home-garden", "sports", "toys", "beauty"].includes(c.slug)
-  );
-};
-
-export const getFeaturedProducts = async (): Promise<Product[]> => {
-  return [
-    { id: "1", name: "Wireless Headphones", slug: "wireless-headphones", description: "High-quality wireless headphones.", price: 199.99, comparePrice: 249.99, image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80", images: ["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80"], category: "Electronics", inStock: true, rating: 4.5, reviewCount: 84 },
-    { id: "2", name: "Smart Watch", slug: "smart-watch", description: "Feature-packed smart watch.", price: 299.99, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80", images: ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80"], category: "Electronics", inStock: true, rating: 5, reviewCount: 152 },
-    { id: "3", name: "Running Shoes", slug: "running-shoes", description: "Comfortable running shoes.", price: 89.99, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80", images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80"], category: "Fashion", inStock: true, rating: 4, reviewCount: 41 },
-    { id: "4", name: "Coffee Maker", slug: "coffee-maker", description: "Programmable coffee maker.", price: 79.99, image: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500&q=80", images: ["https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500&q=80"], category: "Home & Garden", inStock: true, rating: 4.3, reviewCount: 38 }
-  ];
-};
-
-export const getNewArrivals = async (): Promise<Product[]> => {
-  return [
-    { id: "5", name: "Gaming Mouse", slug: "gaming-mouse", description: "Precision gaming mouse.", price: 59.99, image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500&q=80", images: ["https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500&q=80"], category: "Electronics", inStock: true, rating: 4.6, reviewCount: 73 },
-    { id: "6", name: "Mechanical Keyboard", slug: "mechanical-keyboard", description: "Clicky mechanical keyboard.", price: 129.99, image: "https://images.unsplash.com/photo-1595225476474-87563907a212?w=500&q=80", images: ["https://images.unsplash.com/photo-1595225476474-87563907a212?w=500&q=80"], category: "Electronics", inStock: true, rating: 4.8, reviewCount: 96 },
-    { id: "7", name: "Backpack", slug: "backpack", description: "Durable daily backpack.", price: 49.99, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80", images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80"], category: "Fashion", inStock: true, rating: 4.1, reviewCount: 27 },
-    { id: "8", name: "Water Bottle", slug: "water-bottle", description: "Insulated water bottle.", price: 24.99, image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&q=80", images: ["https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&q=80"], category: "Sports", inStock: true, rating: 4.4, reviewCount: 33 }
-  ];
-};
-
-export const getProducts = async (): Promise<Product[]> => {
   try {
-    const res = await fetchClient<ApiResponse<ApiProductDto[]>>('/store/products');
-    
+    // todo update image or icon categories
+    const res = await fetchClient<ApiResponse<ApiCategoryDto[]>>('/store/categories');
     if (res && res.success && Array.isArray(res.data)) {
       return res.data.map((item) => ({
         id: item.id,
+        name: item.name,
+        slug: item.slug,
+        description: item.description,
+        parentCategoryId: item.parentCategoryId,
+        active: item.active,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
+      }));
+    }
+
+    return [];
+  } catch (error) {
+    console.error("Failed to fetch categories:", error);
+    return [];
+  }
+};
+
+export const getFeaturedProducts = async (): Promise<Product[]> => {
+  try {
+    // todo create API get list feature product
+    const res = await fetchClient<ApiResponse<ApiProductDto[]>>('/store/products');
+    if (res && res.success && Array.isArray(res.data)) {
+      return res.data.slice(0, 5).map((item) => ({
+        id: item.slug || "",
         name: item.title || "",
         slug: item.slug || "",
         description: item.description || "",
         price: 0,
         image: item.thumbnailUrl || "",
         images: item.thumbnailUrl ? [item.thumbnailUrl] : [],
-        category: item.categoryId || "Uncategorized",
+        category: item.category || "Uncategorized",
+        inStock: item.status !== "draft",
+        rating: 0,
+        reviewCount: 0,
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return [];
+  }
+};
+
+export const getNewArrivals = async (): Promise<Product[]> => {
+  // todo create API get list Arrivals
+  const res = await fetchClient<ApiResponse<ApiProductDto[]>>('/store/products');
+  if (res && res.success && Array.isArray(res.data)) {
+    return res.data.slice(5, 10).map((item) => ({
+      id: item.slug,
+      name: item.title || "",
+      slug: item.slug || "",
+      description: item.description || "",
+      price: 0,
+      image: item.thumbnailUrl || "",
+      images: item.thumbnailUrl ? [item.thumbnailUrl] : [],
+      category: item.category || "Uncategorized",
+      inStock: item.status !== "draft",
+      rating: 0,
+      reviewCount: 0,
+    }));
+  }
+  return [];
+};
+
+export const getProducts = async (): Promise<Product[]> => {
+  try {
+    const res = await fetchClient<ApiResponse<ApiProductDto[]>>('/store/products');
+    console.log('res', res);
+    if (res && res.success && Array.isArray(res.data)) {
+      return res.data.map((item) => ({
+        id: item.slug,
+        name: item.title || "",
+        slug: item.slug || "",
+        description: item.description || "",
+        price: 0,
+        image: item.thumbnailUrl || "",
+        images: item.thumbnailUrl ? [item.thumbnailUrl] : [],
+        category: item.category || "Uncategorized",
         inStock: item.status !== "draft",
         rating: 0,
         reviewCount: 0,

@@ -16,7 +16,7 @@ export interface ApiProductDto {
   slug: string;
   thumbnailUrl: string;
   status: string;
-  categoryId: string;
+  category: string;
   originCountry?: string;
   discountable?: boolean;
   weight?: number;
@@ -27,4 +27,17 @@ export interface ApiProductDto {
   material?: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+
+// Định nghĩa DTO phản ánh chuẩn xác dữ liệu backend trả về cho một Category
+export interface ApiCategoryDto {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  parentCategoryId: string | null;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
