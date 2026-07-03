@@ -1,0 +1,99 @@
+info:
+  name: Create variant for product
+  type: http
+  seq: 13
+  tags:
+    - Admin Catalog API
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/admin/products/:id/variants"
+  params:
+    - name: id
+      value: ""
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "title": "",
+        "sku": "",
+        "barcode": "",
+        "ean": "",
+        "upc": "",
+        "inventoryQuantity": 0,
+        "allowBackorder": false,
+        "manageInventory": false,
+        "weight": 0,
+        "height": 0,
+        "width": 0,
+        "length": 0
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 201 Response
+    description: Created
+    request:
+      url: "{{baseUrl}}/api/admin/products/:id/variants"
+      method: POST
+      params:
+        - name: id
+          value: ""
+          type: path
+      body:
+        type: json
+        data: |-
+          {
+            "title": "",
+            "sku": "",
+            "barcode": "",
+            "ean": "",
+            "upc": "",
+            "inventoryQuantity": 0,
+            "allowBackorder": false,
+            "manageInventory": false,
+            "weight": 0,
+            "height": 0,
+            "width": 0,
+            "length": 0
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: "*/*"
+      body:
+        type: text
+        data: |-
+          {
+            "success": false,
+            "message": "",
+            "data": {
+              "id": "",
+              "productId": "",
+              "title": "",
+              "sku": "",
+              "barcode": "",
+              "ean": "",
+              "upc": "",
+              "inventoryQuantity": 0,
+              "allowBackorder": false,
+              "manageInventory": false,
+              "weight": 0,
+              "height": 0,
+              "width": 0,
+              "length": 0,
+              "createdAt": "",
+              "updatedAt": ""
+            },
+            "timestamp": "",
+            "errors": {}
+          }

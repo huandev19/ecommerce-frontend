@@ -1,0 +1,81 @@
+info:
+  name: updateRoles
+  type: http
+  seq: 4
+  tags:
+    - user-admin-controller
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/api/v1/users/:id/roles"
+  params:
+    - name: id
+      value: ""
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "roleIds": []
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: OK
+    request:
+      url: "{{baseUrl}}/api/v1/users/:id/roles"
+      method: PUT
+      params:
+        - name: id
+          value: ""
+          type: path
+      body:
+        type: json
+        data: |-
+          {
+            "roleIds": []
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: "*/*"
+      body:
+        type: text
+        data: |-
+          {
+            "success": false,
+            "message": "",
+            "data": {
+              "email": "",
+              "firstName": "",
+              "lastName": "",
+              "phone": "",
+              "avatarUrl": "",
+              "roles": [
+                {
+                  "name": "",
+                  "desc": ""
+                }
+              ],
+              "permissionsOverride": [],
+              "effectivePermissions": [],
+              "failedLoginAttempts": 0,
+              "lockedUntil": "",
+              "lastLoginAt": "",
+              "createdAt": "",
+              "updatedAt": "",
+              "active": false,
+              "activated": false
+            },
+            "timestamp": "",
+            "errors": {}
+          }

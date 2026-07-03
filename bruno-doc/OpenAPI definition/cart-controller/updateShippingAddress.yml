@@ -1,0 +1,150 @@
+info:
+  name: updateShippingAddress
+  type: http
+  seq: 1
+  tags:
+    - cart-controller
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/api/carts/:cartId/shipping-address"
+  params:
+    - name: cartId
+      value: ""
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "label": "",
+        "recipientName": "",
+        "phone": "",
+        "street": "",
+        "ward": "",
+        "district": "",
+        "city": "",
+        "state": "",
+        "country": "",
+        "zipCode": "",
+        "defaultShipping": false,
+        "defaultBilling": false,
+        "addressType": ""
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: OK
+    request:
+      url: "{{baseUrl}}/api/carts/:cartId/shipping-address"
+      method: PUT
+      params:
+        - name: cartId
+          value: ""
+          type: path
+      body:
+        type: json
+        data: |-
+          {
+            "label": "",
+            "recipientName": "",
+            "phone": "",
+            "street": "",
+            "ward": "",
+            "district": "",
+            "city": "",
+            "state": "",
+            "country": "",
+            "zipCode": "",
+            "defaultShipping": false,
+            "defaultBilling": false,
+            "addressType": ""
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: "*/*"
+      body:
+        type: text
+        data: |-
+          {
+            "success": false,
+            "message": "",
+            "data": {
+              "id": "",
+              "regionId": "",
+              "customerId": "",
+              "email": "",
+              "currencyCode": "",
+              "shippingAddress": {
+                "id": "",
+                "label": "",
+                "recipientName": "",
+                "phone": "",
+                "street": "",
+                "ward": "",
+                "district": "",
+                "city": "",
+                "state": "",
+                "country": "",
+                "zipCode": "",
+                "defaultShipping": false,
+                "defaultBilling": false,
+                "addressType": "",
+                "createdAt": "",
+                "updatedAt": ""
+              },
+              "billingAddress": {
+                "id": "",
+                "label": "",
+                "recipientName": "",
+                "phone": "",
+                "street": "",
+                "ward": "",
+                "district": "",
+                "city": "",
+                "state": "",
+                "country": "",
+                "zipCode": "",
+                "defaultShipping": false,
+                "defaultBilling": false,
+                "addressType": "",
+                "createdAt": "",
+                "updatedAt": ""
+              },
+              "completedAt": "",
+              "lineItems": [
+                {
+                  "id": "",
+                  "cartId": "",
+                  "variantId": "",
+                  "variantSku": "",
+                  "title": "",
+                  "quantity": 0,
+                  "unitPrice": 0,
+                  "subtotal": 0,
+                  "thumbnail": "",
+                  "metadata": {},
+                  "createdAt": "",
+                  "updatedAt": ""
+                }
+              ],
+              "subtotal": 0,
+              "itemCount": 0,
+              "completed": false,
+              "empty": false,
+              "metadata": {},
+              "createdAt": "",
+              "updatedAt": ""
+            },
+            "timestamp": "",
+            "errors": {}
+          }

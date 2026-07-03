@@ -1,0 +1,99 @@
+info:
+  name: Update discount
+  type: http
+  seq: 1
+  tags:
+    - Admin Promotion API
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/api/admin/discounts/:id"
+  params:
+    - name: id
+      value: ""
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "code": "",
+        "type": "PERCENTAGE",
+        "value": 0,
+        "currencyCode": "",
+        "minRequirementAmount": 0,
+        "maxDiscountAmount": 0,
+        "startsAt": "",
+        "endsAt": "",
+        "usageLimit": 0,
+        "description": "",
+        "public": false,
+        "active": false
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: OK
+    request:
+      url: "{{baseUrl}}/api/admin/discounts/:id"
+      method: PUT
+      params:
+        - name: id
+          value: ""
+          type: path
+      body:
+        type: json
+        data: |-
+          {
+            "code": "",
+            "type": "PERCENTAGE",
+            "value": 0,
+            "currencyCode": "",
+            "minRequirementAmount": 0,
+            "maxDiscountAmount": 0,
+            "startsAt": "",
+            "endsAt": "",
+            "usageLimit": 0,
+            "description": "",
+            "public": false,
+            "active": false
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: "*/*"
+      body:
+        type: text
+        data: |-
+          {
+            "success": false,
+            "message": "",
+            "data": {
+              "id": "",
+              "code": "",
+              "type": "PERCENTAGE",
+              "value": 0,
+              "currencyCode": "",
+              "minRequirementAmount": 0,
+              "maxDiscountAmount": 0,
+              "startsAt": "",
+              "endsAt": "",
+              "usageLimit": 0,
+              "usageCount": 0,
+              "description": "",
+              "createdAt": "",
+              "updatedAt": "",
+              "public": false,
+              "active": false
+            },
+            "timestamp": "",
+            "errors": {}
+          }

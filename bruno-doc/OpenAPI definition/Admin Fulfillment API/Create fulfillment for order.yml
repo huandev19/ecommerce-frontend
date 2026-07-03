@@ -1,0 +1,74 @@
+info:
+  name: Create fulfillment for order
+  type: http
+  seq: 2
+  tags:
+    - Admin Fulfillment API
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/admin/orders/:orderId/fulfillments"
+  params:
+    - name: orderId
+      value: ""
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "trackingNumber": "",
+        "carrier": ""
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 201 Response
+    description: Created
+    request:
+      url: "{{baseUrl}}/api/admin/orders/:orderId/fulfillments"
+      method: POST
+      params:
+        - name: orderId
+          value: ""
+          type: path
+      body:
+        type: json
+        data: |-
+          {
+            "trackingNumber": "",
+            "carrier": ""
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: "*/*"
+      body:
+        type: text
+        data: |-
+          {
+            "success": false,
+            "message": "",
+            "data": {
+              "id": "",
+              "orderId": "",
+              "displayId": 0,
+              "status": "NOT_FULFILLED",
+              "trackingNumber": "",
+              "carrier": "",
+              "shippedAt": "",
+              "deliveredAt": "",
+              "canceledAt": "",
+              "createdAt": "",
+              "updatedAt": ""
+            },
+            "timestamp": "",
+            "errors": {}
+          }

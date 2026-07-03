@@ -1,0 +1,7 @@
+info:
+  name: Storefront Catalog API
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit

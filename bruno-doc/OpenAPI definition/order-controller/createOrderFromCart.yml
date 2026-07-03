@@ -1,0 +1,105 @@
+info:
+  name: createOrderFromCart
+  type: http
+  seq: 3
+  tags:
+    - order-controller
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/orders/from-cart"
+  body:
+    type: json
+    data: |-
+      {
+        "cartId": "",
+        "regionId": "",
+        "customerId": "",
+        "email": "",
+        "currencyCode": "",
+        "shippingAddressId": "",
+        "billingAddressId": ""
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: OK
+    request:
+      url: "{{baseUrl}}/api/orders/from-cart"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "cartId": "",
+            "regionId": "",
+            "customerId": "",
+            "email": "",
+            "currencyCode": "",
+            "shippingAddressId": "",
+            "billingAddressId": ""
+          }
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: "*/*"
+      body:
+        type: text
+        data: |-
+          {
+            "success": false,
+            "message": "",
+            "data": {
+              "id": "",
+              "displayId": 0,
+              "regionId": "",
+              "customerId": "",
+              "email": "",
+              "currencyCode": "",
+              "shippingAddressId": "",
+              "billingAddressId": "",
+              "status": "",
+              "fulfillmentStatus": "",
+              "paymentStatus": "",
+              "subtotal": 0,
+              "discountTotal": 0,
+              "shippingTotal": 0,
+              "taxTotal": 0,
+              "total": 0,
+              "canceledAt": "",
+              "items": [
+                {
+                  "id": "",
+                  "variantId": "",
+                  "title": "",
+                  "sku": "",
+                  "quantity": 0,
+                  "unitPrice": 0,
+                  "subtotal": 0,
+                  "metadata": {}
+                }
+              ],
+              "statusHistory": [
+                {
+                  "id": "",
+                  "fromStatus": "",
+                  "toStatus": "",
+                  "createdAt": ""
+                }
+              ],
+              "metadata": {},
+              "createdAt": "",
+              "updatedAt": ""
+            },
+            "timestamp": "",
+            "errors": {}
+          }

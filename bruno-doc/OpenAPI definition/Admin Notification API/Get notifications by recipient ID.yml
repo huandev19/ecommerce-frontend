@@ -1,0 +1,62 @@
+info:
+  name: Get notifications by recipient ID
+  type: http
+  seq: 3
+  tags:
+    - Admin Notification API
+
+http:
+  method: GET
+  url: "{{baseUrl}}/api/admin/notifications/recipient/:recipientId"
+  params:
+    - name: recipientId
+      value: ""
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 200 Response
+    description: OK
+    request:
+      url: "{{baseUrl}}/api/admin/notifications/recipient/:recipientId"
+      method: GET
+      params:
+        - name: recipientId
+          value: ""
+          type: path
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: Content-Type
+          value: "*/*"
+      body:
+        type: text
+        data: |-
+          {
+            "success": false,
+            "message": "",
+            "data": [
+              {
+                "id": "",
+                "recipientId": "",
+                "recipientEmail": "",
+                "type": "ORDER_CONFIRMATION",
+                "channel": "EMAIL",
+                "subject": "",
+                "status": "PENDING",
+                "sentAt": "",
+                "readAt": "",
+                "createdAt": "",
+                "updatedAt": ""
+              }
+            ],
+            "timestamp": "",
+            "errors": {}
+          }

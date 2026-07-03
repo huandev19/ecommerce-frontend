@@ -1,0 +1,99 @@
+info:
+  name: Create product
+  type: http
+  seq: 11
+  tags:
+    - Admin Catalog API
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/admin/products"
+  body:
+    type: json
+    data: |-
+      {
+        "title": "",
+        "slug": "",
+        "subtitle": "",
+        "description": "",
+        "thumbnailUrl": "",
+        "status": "draft",
+        "categoryId": "",
+        "originCountry": "",
+        "discountable": false,
+        "weight": 0,
+        "height": 0,
+        "width": 0,
+        "length": 0,
+        "hsCode": "",
+        "material": ""
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
+examples:
+  - name: 201 Response
+    description: Created
+    request:
+      url: "{{baseUrl}}/api/admin/products"
+      method: POST
+      body:
+        type: json
+        data: |-
+          {
+            "title": "",
+            "slug": "",
+            "subtitle": "",
+            "description": "",
+            "thumbnailUrl": "",
+            "status": "draft",
+            "categoryId": "",
+            "originCountry": "",
+            "discountable": false,
+            "weight": 0,
+            "height": 0,
+            "width": 0,
+            "length": 0,
+            "hsCode": "",
+            "material": ""
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: Content-Type
+          value: "*/*"
+      body:
+        type: text
+        data: |-
+          {
+            "success": false,
+            "message": "",
+            "data": {
+              "id": "",
+              "title": "",
+              "subtitle": "",
+              "description": "",
+              "slug": "",
+              "thumbnailUrl": "",
+              "status": "draft",
+              "category": "",
+              "originCountry": "",
+              "discountable": false,
+              "weight": 0,
+              "height": 0,
+              "width": 0,
+              "length": 0,
+              "hsCode": "",
+              "material": "",
+              "createdAt": "",
+              "updatedAt": ""
+            },
+            "timestamp": "",
+            "errors": {}
+          }
